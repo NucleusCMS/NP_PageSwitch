@@ -14,7 +14,7 @@ class NP_PageSwitch extends NucleusPlugin {
 		$this->createOption('multicat','Use Multiple Categories?','yesno','no');
 	}
 	
-	function doSkinVar($skinType,$type,$p1='') {
+	function doSkinVar($skinType,$type='',$p1='') {
 		global $startpos;
 		$pos=isset($startpos)?(int)$startpos:0;
 		$limit=$this->limit;
