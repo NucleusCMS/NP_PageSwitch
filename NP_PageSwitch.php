@@ -5,10 +5,10 @@ class NP_PageSwitch extends NucleusPlugin {
 	
 	function getName()              { return 'NP_PageSwitch'; }
 	function getAuthor()            { return 'Katsumi'; }
-	function getVersion()           { return '1.1.5'; }
+	function getVersion()           { return '1.2'; }
 	function getURL()               { return 'http://japan.nucleuscms.org/bb/viewtopic.php?t=3295';}
 	function getDescription()       { return $this->getName().' plugin'; } 
-	function supportsFeature($what) { return (int)($what=='SqlTablePrefix'); }
+	function supportsFeature($key) { return (int)in_array($key, array('NoSql')); }
 	function getMinNucleusVersion() { return 330; }
 	function install() {
 		$this->createOption('multicat','Use Multiple Categories?','yesno','no');
