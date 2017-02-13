@@ -2,21 +2,20 @@
 class NP_PageSwitch extends NucleusPlugin {
 	
 	var $limit=10;
+	var $multi=false;
+	var $total;
 	
 	function getName()              { return 'NP_PageSwitch'; }
 	function getAuthor()            { return 'Katsumi'; }
 	function getVersion()           { return '1.2'; }
 	function getURL()               { return 'http://japan.nucleuscms.org/bb/viewtopic.php?t=3295';}
 	function getDescription()       { return $this->getName().' plugin'; } 
-	function supportsFeature($key) { return (int)in_array($key, array('NoSql')); }
+	function supportsFeature($key)  { return (int)in_array($key, array('NoSql')); }
 	function getMinNucleusVersion() { return 330; }
-	function install() {
-		$this->createOption('multicat','Use Multiple Categories?','yesno','no');
-	}
 	
 	function doSkinVar($skinType,$type='',$p1='') {
 		global $startpos;
-		$pos=isset($startpos)?(int)$startpos:0;
+		$pos = isset($startpos) ? (int)$startpos : 0;
 		$limit=$this->limit;
 		switch($type=strtolower($type)){
 		case 'limit':
@@ -35,10 +34,10 @@ class NP_PageSwitch extends NucleusPlugin {
 			echo intval($this->getTotal());
 			return;
 		case 'prev':
-			if ($limit<=$pos) echo '<a href="'.hsc($this->url($pos-$limit)) . '">'.hsc($p1).'</a>';
+			if ($limit<=$pos) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos-$limit)), hsc($p1));
 			return;
 		case 'next':
-			if ( $pos+$limit<$this->getTotal() ) echo '<a href="'.hsc($this->url($pos+$limit)).'">'.hsc($p1).'</a>';
+			if ( $pos+$limit<$this->getTotal() ) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos+$limit)), hsc($p1));
 			return;
 		case 'index':
 			$tags=array();
@@ -56,15 +55,14 @@ class NP_PageSwitch extends NucleusPlugin {
 					
 				}
 				if ($i==$pos/$limit) $tags[]='<b>'.(string)($i+1).'</b>';
-				else $tags[]='<a href="'.hsc($this->url($i*$limit)).'">'.($i+1).'</a>';
+				else $tags[] = sprinf('<a href="%s">%s</a>', hsc($this->url($i*$limit)), $i+1);
 			}
 			echo implode(',',$tags);
 			return;
 		default: break;
 		}
 	}
-	var $multi=false;
-	var $total;
+	
 	function getTotal(){
 		global $blog,$query,$amount;
 		if (isset($this->total)) return $this->total;
@@ -95,11 +93,13 @@ class NP_PageSwitch extends NucleusPlugin {
 		}
 		return $this->total;
 	}
+	
 	function url($pos){
 		$qs = $_SERVER['QUERY_STRING'];
 		if (!strstr($qs,'startpos=')) $qs .= ($qs ? '&' : '') . 'startpos=0';
-		return '?'.preg_replace('/startpos=([0-9]+)/i','startpos='.$pos,$qs);
+		return '?' . preg_replace('/startpos=([0-9]+)/i', 'startpos='.$pos, $qs);
 	}
+	
 	function doIf($p1='',$p2=''){
 		switch($p1=strtolower($p1)){
 		case 'limit':
@@ -108,5 +108,9 @@ class NP_PageSwitch extends NucleusPlugin {
 		default:
 			return $this->limit<$this->getTotal();
 		}
+	}
+	
+	function install() {
+		$this->createOption('multicat','Use Multiple Categories?','yesno','no');
 	}
 }
