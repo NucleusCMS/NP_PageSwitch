@@ -1,7 +1,7 @@
 <?php
 class NP_PageSwitch extends NucleusPlugin { 
 	function getName() { return 'NP_PageSwitch'; }
-	function getMinNucleusVersion() { return 330; }
+	function getMinNucleusVersion() { return 360; }
 	function getAuthor()  { return 'Katsumi'; }
 	function getVersion() { return '1.1.5'; }
 	function getURL() {return 'http://japan.nucleuscms.org/bb/viewtopic.php?t=3295';}
@@ -20,7 +20,7 @@ class NP_PageSwitch extends NucleusPlugin {
 			$this->limit=(int)$p1;
 			return;
 		case 'info':
-			if ($limit<$this->getTotal()) echo htmlspecialchars($p1,ENT_QUOTES);
+			if ($limit<$this->getTotal()) echo hsc($p1);
 			return;
 		case 'num':
 			echo intval($startpos/$limit)+1;
@@ -32,10 +32,10 @@ class NP_PageSwitch extends NucleusPlugin {
 			echo intval($this->getTotal());
 			return;
 		case 'prev':
-			if ($limit<=$pos) echo '<a href="'.htmlspecialchars($this->url($pos-$limit)).'">'.htmlspecialchars($p1).'</a>';
+			if ($limit<=$pos) echo '<a href="'.hsc($this->url($pos-$limit)) . '">'.hsc($p1).'</a>';
 			return;
 		case 'next':
-			if ( $pos+$limit<$this->getTotal() ) echo '<a href="'.htmlspecialchars($this->url($pos+$limit)).'">'.htmlspecialchars($p1).'</a>';
+			if ( $pos+$limit<$this->getTotal() ) echo '<a href="'.hsc($this->url($pos+$limit)).'">'.hsc($p1).'</a>';
 			return;
 		case 'index':
 			$tags=array();
@@ -53,7 +53,7 @@ class NP_PageSwitch extends NucleusPlugin {
 					
 				}
 				if ($i==$pos/$limit) $tags[]='<b>'.(string)($i+1).'</b>';
-				else $tags[]='<a href="'.htmlspecialchars($this->url($i*$limit)).'">'.($i+1).'</a>';
+				else $tags[]='<a href="'.hsc($this->url($i*$limit)).'">'.($i+1).'</a>';
 			}
 			echo implode(',',$tags);
 			return;
