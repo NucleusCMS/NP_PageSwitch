@@ -1,16 +1,19 @@
 <?php
-class NP_PageSwitch extends NucleusPlugin { 
-	function getName() { return 'NP_PageSwitch'; }
-	function getMinNucleusVersion() { return 360; }
-	function getAuthor()  { return 'Katsumi'; }
-	function getVersion() { return '1.1.5'; }
-	function getURL() {return 'http://japan.nucleuscms.org/bb/viewtopic.php?t=3295';}
-	function getDescription() { return $this->getName().' plugin'; } 
+class NP_PageSwitch extends NucleusPlugin {
+	
+	var $limit=10;
+	
+	function getName()              { return 'NP_PageSwitch'; }
+	function getAuthor()            { return 'Katsumi'; }
+	function getVersion()           { return '1.1.5'; }
+	function getURL()               { return 'http://japan.nucleuscms.org/bb/viewtopic.php?t=3295';}
+	function getDescription()       { return $this->getName().' plugin'; } 
 	function supportsFeature($what) { return (int)($what=='SqlTablePrefix'); }
+	function getMinNucleusVersion() { return 330; }
 	function install() {
 		$this->createOption('multicat','Use Multiple Categories?','yesno','no');
 	}
-	var $limit=10;
+	
 	function doSkinVar($skinType,$type,$p1='') {
 		global $startpos;
 		$pos=isset($startpos)?(int)$startpos:0;
@@ -107,5 +110,3 @@ class NP_PageSwitch extends NucleusPlugin {
 		}
 	}
 }
-
-?>
