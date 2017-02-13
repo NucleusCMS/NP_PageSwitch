@@ -93,9 +93,8 @@ class NP_PageSwitch extends NucleusPlugin {
 		return $this->total;
 	}
 	function url($pos){
-		global $HTTP_SERVER_VARS;
-		$qs=isset($_SERVER)?$_SERVER['QUERY_STRING']:$HTTP_SERVER_VARS['QUERY_STRING'];
-		if (!strstr($qs,'startpos=')) $qs.=($qs?'&':'').'startpos=0';
+		$qs = $_SERVER['QUERY_STRING'];
+		if (!strstr($qs,'startpos=')) $qs .= ($qs ? '&' : '') . 'startpos=0';
 		return '?'.preg_replace('/startpos=([0-9]+)/i','startpos='.$pos,$qs);
 	}
 	function doIf($p1='',$p2=''){
