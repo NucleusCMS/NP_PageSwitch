@@ -14,9 +14,14 @@ class NP_PageSwitch extends NucleusPlugin {
 	function getMinNucleusVersion() { return 330; }
 	
 	function doSkinVar($skinType,$type='',$p1='') {
-		global $startpos;
+		global $startpos, $manager;
 		$pos = isset($startpos) ? (int)$startpos : 0;
+		
 		$limit=$this->limit;
+		
+        $param = array('total'=>&$this->total, 'pos' => &$pos, 'limit' => &$limit);
+        $manager->notify('PrePageSwitch',$param);
+        
 		switch($type=strtolower($type)){
 		case 'limit':
 			$this->limit=(int)$p1;
