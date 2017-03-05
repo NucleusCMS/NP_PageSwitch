@@ -23,48 +23,48 @@ class NP_PageSwitch extends NucleusPlugin {
         $manager->notify('PrePageSwitch',$param);
         
 		switch($type=strtolower($type)){
-		case 'limit':
-			$this->limit=(int)$p1;
-			return;
-		case 'info':
-			if ($limit<$this->getTotal()) echo hsc($p1);
-			return;
-		case 'num':
-			echo intval($startpos/$limit)+1;
-			return;
-		case 'total':
-			echo intval(($this->getTotal()-1)/$limit)+1;
-			return;
-		case 'found':
-			echo intval($this->getTotal());
-			return;
-		case 'prev':
-			if ($limit<=$pos) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos-$limit)), hsc($p1));
-			return;
-		case 'next':
-			if ( $pos+$limit<$this->getTotal() ) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos+$limit)), hsc($p1));
-			return;
-		case 'index':
-			$tags=array();
-			$num=intval(($this->getTotal()-1)/$limit)+1;
-			$around=false;
-			for ($i=0;$i<$num;$i++) {
-				if ($p1) {
-					if ($i-1<=$pos/$limit && $pos/$limit<=$i+1) {
-						$around=true;
-					} else {
-						if (($p1==$i && $i<$num-$p1 || $around && $p1<=$i && $i==$num-$p1) 
-							&& $tags[count($tags)-1]!='&nbsp;...&nbsp;') $tags[]='&nbsp;...&nbsp;';
-						if ($p1<=$i && $i<$num-$p1) continue;
-					}
-					
-				}
-				if ($i==$pos/$limit) $tags[]='<b>'.(string)($i+1).'</b>';
-				else $tags[] = sprinf('<a href="%s">%s</a>', hsc($this->url($i*$limit)), $i+1);
-			}
-			echo implode(',',$tags);
-			return;
-		default: break;
+    		case 'limit':
+    			$this->limit=(int)$p1;
+    			return;
+    		case 'info':
+    			if ($limit<$this->getTotal()) echo hsc($p1);
+    			return;
+    		case 'num':
+    			echo intval($startpos/$limit)+1;
+    			return;
+    		case 'total':
+    			echo intval(($this->getTotal()-1)/$limit)+1;
+    			return;
+    		case 'found':
+    			echo intval($this->getTotal());
+    			return;
+    		case 'prev':
+    			if ($limit<=$pos) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos-$limit)), hsc($p1));
+    			return;
+    		case 'next':
+    			if ( $pos+$limit<$this->getTotal() ) echo sprintf('<a href="%s">%s</a>', hsc($this->url($pos+$limit)), hsc($p1));
+    			return;
+    		case 'index':
+    			$tags=array();
+    			$num=intval(($this->getTotal()-1)/$limit)+1;
+    			$around=false;
+    			for ($i=0;$i<$num;$i++) {
+    				if ($p1) {
+    					if ($i-1<=$pos/$limit && $pos/$limit<=$i+1) {
+    						$around=true;
+    					} else {
+    						if (($p1==$i && $i<$num-$p1 || $around && $p1<=$i && $i==$num-$p1) 
+    							&& $tags[count($tags)-1]!='&nbsp;...&nbsp;') $tags[]='&nbsp;...&nbsp;';
+    						if ($p1<=$i && $i<$num-$p1) continue;
+    					}
+    					
+    				}
+    				if ($i==$pos/$limit) $tags[]='<b>'.(string)($i+1).'</b>';
+    				else $tags[] = sprintf('<a href="%s">%s</a>', hsc($this->url($i*$limit)), $i+1);
+    			}
+    			echo implode(',',$tags);
+    			return;
+    		default: break;
 		}
 	}
 	
